@@ -119,7 +119,10 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
-                                newsViewModel.deleteArticle(newsAdapter.currentList[swipedPosition].id)
+                                newsViewModel.deleteArticle(
+                                    newsAdapter.currentList[swipedPosition].id,
+                                    true
+                                )
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }

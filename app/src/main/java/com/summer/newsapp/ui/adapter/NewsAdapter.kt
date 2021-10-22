@@ -19,7 +19,7 @@ class NewsAdapter(private val context: Context) :
 
     private lateinit var newsAdapterClickListener: NewsAdapterClickListener
 
-    fun setNewsRecyclerViewClickListener(newsAdapterClickListener: NewsAdapterClickListener){
+    fun setNewsRecyclerViewClickListener(newsAdapterClickListener: NewsAdapterClickListener) {
         this.newsAdapterClickListener = newsAdapterClickListener
     }
 
@@ -28,9 +28,15 @@ class NewsAdapter(private val context: Context) :
         private val ivNewsImage = itemView.findViewById<ShapeableImageView>(R.id.iv_news_image)
         private val tvNewsTitle = itemView.findViewById<AppCompatTextView>(R.id.tv_news_title)
         private val tvNewsDate = itemView.findViewById<AppCompatTextView>(R.id.tv_news_date)
-        private val tvNewsDescription = itemView.findViewById<AppCompatTextView>(R.id.tv_news_description)
+        private val tvNewsDescription =
+            itemView.findViewById<AppCompatTextView>(R.id.tv_news_description)
 
         fun bind(newsEntity: NewsEntity) {
+            if (newsEntity.read){
+                rlItemNews.alpha = 0.35F
+            }else{
+                rlItemNews.alpha = 1.0F
+            }
             tvNewsTitle.text = newsEntity.title
             tvNewsDate.text = newsEntity.publishedDate
             tvNewsDescription.text = newsEntity.description
@@ -41,7 +47,7 @@ class NewsAdapter(private val context: Context) :
 
             //handling recyclerview item events
             itemView.setOnClickListener {
-                newsAdapterClickListener.onItemClick(ivNewsImage,newsEntity)
+                newsAdapterClickListener.onItemClick(ivNewsImage, newsEntity)
             }
 
         }
@@ -62,6 +68,7 @@ class NewsAdapter(private val context: Context) :
                     newItem: NewsEntity
                 ): Boolean {
                     return oldItem.id == newItem.id
+                            && oldItem.read == newItem.read
                 }
 
                 override fun areContentsTheSame(
@@ -73,6 +80,8 @@ class NewsAdapter(private val context: Context) :
                             && oldItem.publishedDate == newItem.publishedDate
                             && oldItem.timestamp == newItem.timestamp
                             && oldItem.title == newItem.title
+                            && oldItem.read == newItem.read
+                            && oldItem.articleUrl == newItem.articleUrl
                 }
             }
     }

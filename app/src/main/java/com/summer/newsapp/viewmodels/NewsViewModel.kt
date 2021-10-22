@@ -8,10 +8,11 @@ class NewsViewModel(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    suspend fun deleteArticle(id:String) = newsRepository.delete(id)
+    suspend fun deleteArticle(id: String, deleted: Boolean) = newsRepository.delete(id, deleted)
     suspend fun updateArticle(id: String, read: Boolean) =
-        newsRepository.updateArticle(id,read)
-    fun getAllArticles(read:Boolean) = newsRepository.getAllArticles(read)
+        newsRepository.updateArticle(id, read)
+
+    fun getAllArticles(deleted: Boolean) = newsRepository.getAllArticles(deleted)
 
     suspend fun getAllArticles(): Boolean {
         return newsRepository.getAllArticlesFromRetrofit()

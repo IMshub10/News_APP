@@ -27,14 +27,14 @@ class NewsRepository(
     fun update(newsEntity: NewsEntity) =
         newsDao.update(newsEntity)
 
-    fun delete(id: String) =
-        newsDao.delete(id)
+    fun delete(id: String,deleted: Boolean) =
+        newsDao.delete(id,deleted)
 
     fun updateArticle(id: String, read: Boolean) =
         newsDao.updateArticle(id,read)
 
-    fun getAllArticles(read:Boolean) =
-        newsDao.getAllArticles(read)
+    fun getAllArticles(deleted:Boolean) =
+        newsDao.getAllArticles(deleted)
 
     suspend fun getAllArticlesFromRetrofit(): Boolean {
         val dateFormat = SimpleDateFormat(Constants.API_PROVIDING_DATE_FORMAT, Locale.US)
@@ -53,7 +53,7 @@ class NewsRepository(
                             article.url.orEmpty(),
                             article.publishedAt,
                             date.time,
-                            false
+                            read = false, deleted = false
                         )
                     )
                 }

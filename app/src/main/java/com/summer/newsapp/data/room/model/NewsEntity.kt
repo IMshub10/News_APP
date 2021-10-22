@@ -13,5 +13,6 @@ class NewsEntity(
     var articleUrl: String,
     var publishedDate: String,
     var timestamp: Long,
-    var read:Boolean
+    var read:Boolean,
+    var deleted:Boolean
 )
