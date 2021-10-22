@@ -11,8 +11,7 @@ class ServiceAlarmHandler(private val mContext: Context) {
 
     private val TAG = "ServiceAlarmHandler"
 
-
-    public fun setAlarmManager() {
+    fun setAlarmManager() {
         Log.e(TAG, "MyAlarmManager Started")
         val startServiceIntent = Intent(mContext, FetchNewsService::class.java)
         val sender = PendingIntent.getForegroundService(
@@ -24,13 +23,13 @@ class ServiceAlarmHandler(private val mContext: Context) {
         val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis(),
+            System.currentTimeMillis() + Constants.ALARM_TRIGGER,
             Constants.ALARM_TRIGGER,
             sender
         )
     }
 
-    public fun cancelAlarmManager() {
+    fun cancelAlarmManager() {
         val startServiceIntent = Intent(mContext, FetchNewsService::class.java)
         val sender = PendingIntent.getForegroundService(
             mContext,

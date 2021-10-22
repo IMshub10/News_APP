@@ -1,84 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?><!--News item for the main recycler view-->
-<layout>
+<?xml version="1.0" encoding="utf-8"?>
+<!--News item for the main recycler view-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_item_news"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/shape_rr_corner_12"
+    android:backgroundTint="?attr/colorSurface">
 
-    <data class="NewsItemBinding">
-        <variable
-            name="newsItemEntity"
-            type="com.summer.newsapp.data.room.model.NewsEntity" />
-    </data>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/rl_item_news"
+    <!--    Container for the image in news-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_news_image"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="start"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?attr/colorSurface"
+        android:scaleType="centerCrop"
+        android:transitionName="image_transition"
+        app:shapeAppearance="@style/ImageViewShape" />
+
+    <!--    text view for date-->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_news_date"
+        style="@style/text_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_news_image"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_rr_corner_12"
+        android:backgroundTint="?attr/colorBackgroundFloating"
+        android:padding="4dp"
+        android:text="@string/temp_date" />
+
+    <!--    text view for news headline/header-->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_news_title"
+        style="@style/text_header_bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_news_image"
+        android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/shape_rr_corner_12"
-        android:backgroundTint="?attr/colorSurface">
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/sample_paragraph_1" />
 
-        <!--    Container for the image in news-->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_widget_image"
-            android:layout_width="match_parent"
-            android:layout_height="192dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="start"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
-            android:background="?attr/colorSurface"
-            android:scaleType="centerCrop"
-            android:transitionName="image_transition"
-            app:image="@{newsItemEntity.imageUrl}"
-            app:shapeAppearance="@style/ImageViewShape" />
+    <!--    text view for news text/subtitle-->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_news_description"
+        style="@style/text_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_news_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:text="@string/sample_paragraph_1" />
 
-        <!--    text view for date-->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_news_date"
-            style="@style/text_caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/iv_widget_image"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/shape_rr_corner_12"
-            android:backgroundTint="?attr/colorBackgroundFloating"
-            android:padding="4dp"
-            android:text="@{newsItemEntity.publishedDate}" />
-
-        <!--    text view for news headline/header-->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_news_title"
-            style="@style/text_header_bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_widget_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:ellipsize="end"
-            android:maxLines="4"
-            android:text="@{newsItemEntity.title}" />
-
-        <!--    text view for news text/subtitle-->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_news_description"
-            style="@style/text_body"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_news_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="16dp"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="@{newsItemEntity.description}" />
-
-    </RelativeLayout>
-</layout>
+</RelativeLayout>

@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.summer.newsapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -13,6 +15,9 @@
         android:theme="@style/Theme.NewsApp"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".ui.activities.FullNewsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,7 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.FetchNewsService"/>
+
+        <service android:name=".service.FetchNewsService" />
     </application>
 
 </manifest>

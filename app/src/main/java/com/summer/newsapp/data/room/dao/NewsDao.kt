@@ -18,6 +18,9 @@ interface NewsDao {
     @Query("DELETE FROM news_table")
     fun deleteAll()
 
-    @Query("SELECT * FROM news_table ORDER BY timestamp DESC  LIMIT 50")
-    fun getAllNews(): LiveData<List<NewsEntity>>
+    @Query("UPDATE news_table SET read=:read WHERE id=:id")
+    fun updateArticle(id: String, read: Boolean)
+
+    @Query("SELECT * FROM news_table WHERE read==:read ORDER BY timestamp DESC  LIMIT 50")
+    fun getAllArticles(read: Boolean): LiveData<List<NewsEntity>>
 }

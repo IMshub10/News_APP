@@ -4,28 +4,36 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.kwabenaberko.newsapilib.NewsApiClient
 import com.summer.newsapp.R
-import com.summer.newsapp.data.api.repository.NewsApiRepository
-import com.summer.newsapp.data.room.repository.NewsDBRepository
+import com.summer.newsapp.data.api.RetrofitBuilder
+import com.summer.newsapp.data.api.apihelper.NewsHelperImpl
+import com.summer.newsapp.data.api.apiservice.NewsService
+import com.summer.newsapp.data.repository.NewsRepository
 import com.summer.newsapp.ui.activities.MainActivity
-import com.summer.newsapp.utils.Constants
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FetchNewsService : Service() {
     private val newsServiceChannel = "NewsServiceChannel"
-    private lateinit var newsApiRepository:NewsApiRepository
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        newsApiRepository = NewsApiRepository(NewsDBRepository(application))
+        val newsRepository =
+            NewsRepository(application, NewsHelperImpl(RetrofitBuilder.newsApiService))
         val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
         val notification =
             NotificationCompat.Builder(applicationContext, newsServiceChannel)
                 .setSmallIcon(R.drawable.ic_moon_stars)
@@ -35,10 +43,16 @@ class FetchNewsService : Service() {
                 .setSound(null)
                 .build()
         startForeground(100, notification)
-        newsApiRepository.updateNewsInLocalDB(
-            NewsApiClient(Constants.NEWS_APP_API_KEY),
-            SimpleDateFormat(Constants.API_PROVIDING_DATE_FORMAT, Locale.getDefault())
-        )
+        initFetchArticles(newsRepository)
+        stopSelf()
         return START_STICKY
     }
+
+    private fun initFetchArticles(repository: NewsRepository) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val status = repository.getAllArticlesFromRetrofit()
+            Log.e("Service", status.toString())
+        }
+    }
+
 }
