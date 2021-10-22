@@ -3,4 +3,7 @@
     <string name="label_refresh">Refresh</string>
     <string name="sample_paragraph_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu quam elit. Nam tempor et ipsum vel luctus. Quisque vel arcu imperdiet, molestie tortor non, elementum enim. Vivamus ullamcorper mauris et fringilla viverra.</string>
     <string name="label_search">Search</string>
+    <string name="temp_date">21 Jan 2021</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

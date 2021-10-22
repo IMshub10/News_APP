@@ -1,16 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--Main feed-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="wrap_content"
+    <!--    Toolbar for the app with search and refresh button-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        app:title="@string/app_name"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:autoLink="all"
-        android:linksClickable="true"/>
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
 
-</ScrollView>
+        <!--        Search input bar-->
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--Separator -->
+    <View
+        style="@style/Separator"
+        android:layout_width="match_parent" />
+
+    <!--    RecyclerView for the main feed-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main_feed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

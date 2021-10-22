@@ -5,6 +5,10 @@
       <map>
         <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/drawable-v24/ic_moon_stars.xml" value="0.1" />
         <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_main.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_news_full.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/layout/item_main_feed.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/layout/item_news.xml" value="0.10833333333333334" />
+        <entry key="..\:/Users/Shubham/AndroidStudioProjects/NewsApp/app/src/main/res/menu/appbar_icons.xml" value="0.16197916666666667" />
       </map>
     </option>
   </component>
