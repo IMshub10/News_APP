@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -50,14 +49,9 @@ class MainActivity : AppCompatActivity() {
     private fun initFetchArticles() {
         binding.pgFetchNews.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
-            val status = newsViewModel.getAllArticles()
+            newsViewModel.getAllArticles()
             withContext(Dispatchers.Main) {
                 binding.pgFetchNews.isVisible = false
-                if (status) {
-                    Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this@MainActivity, "Failed", Toast.LENGTH_LONG).show()
-                }
             }
         }
     }
