@@ -4,9 +4,10 @@ import com.summer.newsapp.data.api.apiservice.NewsService
 
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Inject
 
-object RetrofitBuilder {
-    private const val BASE_URL =
+class RetrofitBuilder @Inject constructor(){
+    private  val BASE_URL =
         "https://newsapi.org/v2/"
 
     private var retrofit: Retrofit? = null

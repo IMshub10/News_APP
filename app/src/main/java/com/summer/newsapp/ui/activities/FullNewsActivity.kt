@@ -44,6 +44,4 @@ class FullNewsActivity : AppCompatActivity() {
         mImageUrl = intent.getStringExtra("imageUrl").orEmpty()
         mPublishedDate = intent.getStringExtra("publishedDate").orEmpty()
     }
-
-
 }

@@ -10,22 +10,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.summer.newsapp.data.api.RetrofitBuilder
-import com.summer.newsapp.data.api.apihelper.NewsHelperImpl
 import com.summer.newsapp.data.room.model.NewsEntity
 import com.summer.newsapp.databinding.ActivityMainBinding
 import com.summer.newsapp.ui.adapter.NewsAdapter
 import com.summer.newsapp.utils.ServiceAlarmHandler
 import com.summer.newsapp.viewmodels.NewsViewModel
-import com.summer.newsapp.viewmodels.factory.NewsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     //private val tag = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var newsViewModel: NewsViewModel
@@ -44,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         clickListeners()
         setUpItemTouchHelper()
         initFetchArticles()
+    }
+
+    private fun initViewModel() {
+        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
     }
 
     private fun initFetchArticles() {
@@ -85,6 +87,32 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateArticleInDB(id: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                newsViewModel.updateArticle(
+                    id,
+                    true
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun deleteArticleInDB(id: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                newsViewModel.deleteArticle(
+                    id,
+                    true
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     private fun setUpItemTouchHelper() {
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback =
             object :
@@ -100,27 +128,11 @@ class MainActivity : AppCompatActivity() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                     val swipedPosition = viewHolder.adapterPosition
                     if (swipeDir == ItemTouchHelper.LEFT) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                newsViewModel.updateArticle(
-                                    newsAdapter.currentList[swipedPosition].id,
-                                    true
-                                )
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
+                        updateArticleInDB(newsAdapter.currentList[0].id)
                     } else {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                newsViewModel.deleteArticle(
-                                    newsAdapter.currentList[swipedPosition].id,
-                                    true
-                                )
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
+                        deleteArticleInDB(
+                            newsAdapter.currentList[swipedPosition].id
+                        )
                     }
                 }
             }
@@ -147,10 +159,4 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun initViewModel() {
-        newsViewModel = ViewModelProvider(
-            this,
-            NewsViewModelFactory(application, NewsHelperImpl(RetrofitBuilder.newsApiService))
-        ).get(NewsViewModel::class.java)
-    }
 }

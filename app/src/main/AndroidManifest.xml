@@ -18,6 +18,7 @@
             android:name=".ui.activities.FullNewsActivity"
             android:exported="false" />
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:name=".ui.activities.MainActivity"
             android:exported="true" >
             <intent-filter>

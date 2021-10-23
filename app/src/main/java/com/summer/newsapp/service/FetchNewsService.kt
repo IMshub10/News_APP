@@ -5,19 +5,23 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.summer.newsapp.R
-import com.summer.newsapp.data.api.RetrofitBuilder
-import com.summer.newsapp.data.api.apihelper.NewsHelperImpl
-import com.summer.newsapp.data.api.apiservice.NewsService
 import com.summer.newsapp.data.repository.NewsRepository
 import com.summer.newsapp.ui.activities.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FetchNewsService : Service() {
+    private val TAG = "FetchNewsService"
+
+    @Inject
+    lateinit var newsRepository: NewsRepository
+
     private val newsServiceChannel = "NewsServiceChannel"
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -25,8 +29,13 @@ class FetchNewsService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val newsRepository =
-            NewsRepository(application, NewsHelperImpl(RetrofitBuilder.newsApiService))
+        showNotification()
+        initFetchArticles(newsRepository)
+        stopSelf()
+        return START_STICKY
+    }
+
+    private fun showNotification() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             this,
@@ -43,15 +52,12 @@ class FetchNewsService : Service() {
                 .setSound(null)
                 .build()
         startForeground(100, notification)
-        initFetchArticles(newsRepository)
-        stopSelf()
-        return START_STICKY
     }
 
     private fun initFetchArticles(repository: NewsRepository) {
         CoroutineScope(Dispatchers.IO).launch {
             val status = repository.getAllArticlesFromRetrofit()
-            Log.e("Service", status.toString())
+            Log.e(TAG, status.toString())
         }
     }
 
