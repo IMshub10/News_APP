@@ -11,6 +11,9 @@ class ServiceAlarmHandler(private val mContext: Context) {
 
     private val TAG = "ServiceAlarmHandler"
 
+    /**
+     * Initializing alarm and assigning a service
+     */
     fun setAlarmManager() {
         Log.e(TAG, "MyAlarmManager Started")
         val startServiceIntent = Intent(mContext, FetchNewsService::class.java)
@@ -29,6 +32,9 @@ class ServiceAlarmHandler(private val mContext: Context) {
         )
     }
 
+    /**
+     * Cancelling alarm and assigning a service
+     */
     fun cancelAlarmManager() {
         val startServiceIntent = Intent(mContext, FetchNewsService::class.java)
         val sender = PendingIntent.getForegroundService(
